@@ -100,7 +100,7 @@ void dynamic_programming_net_discrete(struct lobsters *lobsters, int no_lobsters
     }
 
     // We output the biggest value that can be obtained from the lobsters and can also fit in the net
-    printf("\n=== Value in the net %d ===", get_matrix_value(matrix, no_lobsters, net_capacity));
+    printf("\n=== Value in the net: %d ===", get_matrix_value(matrix, no_lobsters, net_capacity));
     printf("\n=== Selected Lobsters: ");
     for (int i = selected_count - 1; i >= 0; i--) { // We output the selected lobsters ID's
         printf("%d ", selected_lobsters[i]);
