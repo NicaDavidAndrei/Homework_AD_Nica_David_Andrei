@@ -9,11 +9,11 @@ void generate_lobsters(struct lobsters *lobsters, int no_lobsters) {
     int iterator;
     time_t t;
 
-    srand((unsigned) time(&t)); // Random number generator that uses time as a seed
+    srand((unsigned) time(&t)); // Initialize the random number generator with the current time
     for (iterator = 0; iterator < no_lobsters; iterator++) {
-        lobsters[iterator].id = iterator + 1; // Assignation of an id to each lobster
-        lobsters[iterator].size = rand() % 100 + 1; // Assignation of a random size to each lobster
-        lobsters[iterator].value = rand() % 100 + 1; // Assignation of a random value to each lobster
+        lobsters[iterator].id = iterator + 1; // Assign an id to each lobster
+        lobsters[iterator].size = rand() % 100 + 1; // Assign a random size to each lobster
+        lobsters[iterator].value = rand() % 100 + 1; // Assign a random value to each lobster
     }
 }
 
@@ -22,27 +22,27 @@ void print_lobsters(struct lobsters *lobsters, int no_lobsters) {
     int iterator;
     printf("\n Lobsters:");
     for (iterator = 0; iterator < no_lobsters; iterator++) {
-        printf("\n id: %d weight: %d value:%d", lobsters[iterator].id, lobsters[iterator].size, lobsters[iterator].value); // Outputs the id, weight and value of each lobster
+        printf("\n id: %d weight: %d value:%d", lobsters[iterator].id, lobsters[iterator].size, lobsters[iterator].value); // Output the id, weight, and value of each lobster
     }
 }
 
 // Function to set the value of a matrix element
 void set_matrix_value(struct a_matrix matrix, int row_index, int column_index, int element_value) {
     int position;
-    position = row_index * matrix.no_cols + column_index;
-    *(matrix.matrix + position) = element_value; // Value is set at the calculated position in the matrix
+    position = row_index * matrix.no_cols + column_index; // Calculate the position in the matrix
+    *(matrix.matrix + position) = element_value; // Set the value at the calculated position
 }
 
 // Function to retrieve the value of a matrix element
 int get_matrix_value(struct a_matrix matrix, int row_index, int column_index) {
     int position;
-    position = row_index * matrix.no_cols + column_index;
-    return *(matrix.matrix + position); // Value is retrieved at the calculated position in the matrix
+    position = row_index * matrix.no_cols + column_index; // Calculate the position in the matrix
+    return *(matrix.matrix + position); // Retrieve the value at the calculated position
 }
 
 // Function that retrieves the maximum of two values
 int get_max(int val1, int val2) {
-    return val1 > val2 ? val1 : val2;
+    return val1 > val2 ? val1 : val2; // Return the greater of the two values
 }
 
 // Function that applies the dynamic programming algorithm to determine the maximum value that can be obtained from the lobsters and can also fit in (similar to the knapsack problem)
@@ -60,12 +60,12 @@ void dynamic_programming_net_discrete(struct lobsters *lobsters, int no_lobsters
     // Matrix initialization 
     matrix.no_rows = no_lobsters + 1;
     matrix.no_cols = net_capacity + 1;
-    matrix.matrix = calloc((matrix.no_rows) * (matrix.no_cols), sizeof(int));
+    matrix.matrix = calloc((matrix.no_rows) * (matrix.no_cols), sizeof(int)); // Allocate memory for the matrix
 
     for (lobsters_iterator = 0; lobsters_iterator <= no_lobsters; lobsters_iterator++) {
         for (weight_iterator = 0; weight_iterator <= net_capacity; weight_iterator++) {
             if (lobsters_iterator == 0 || weight_iterator == 0) {
-                set_matrix_value(matrix, lobsters_iterator, weight_iterator, 0);
+                set_matrix_value(matrix, lobsters_iterator, weight_iterator, 0); // Initialize the first row and column with 0
             } else {
                 int lobster_weight = lobsters[lobsters_iterator - 1].size;
                 int lobster_value = lobsters[lobsters_iterator - 1].value;
@@ -85,7 +85,7 @@ void dynamic_programming_net_discrete(struct lobsters *lobsters, int no_lobsters
         }
     }
 
-    net_value = get_matrix_value(matrix, no_lobsters, net_capacity);
+    net_value = get_matrix_value(matrix, no_lobsters, net_capacity); // The maximum value that can be obtained
 
     // Start of added code to track and print selected lobsters
     int *selected_lobsters = malloc(no_lobsters * sizeof(int)); // Array to store selected lobster IDs
@@ -99,14 +99,14 @@ void dynamic_programming_net_discrete(struct lobsters *lobsters, int no_lobsters
         }
     }
 
-    // We output the biggest value that can be obtained from the lobsters and can also fit in the net
+    // Output the biggest value that can be obtained from the lobsters and can also fit in the net
     printf("\n=== Value in the net: %d ===", get_matrix_value(matrix, no_lobsters, net_capacity));
     printf("\n=== Selected Lobsters: ");
-    for (int i = selected_count - 1; i >= 0; i--) { // We output the selected lobsters ID's
+    for (int i = selected_count - 1; i >= 0; i--) { // Output the selected lobsters' IDs
         printf("%d ", selected_lobsters[i]);
     }
     printf("===\n");
 
-    free(matrix.matrix); // Freeing the memory allocated for the matrix
-    free(selected_lobsters); // Freeing the memory allocated for the selected lobsters
+    free(matrix.matrix); // Free the memory allocated for the matrix
+    free(selected_lobsters); // Free the memory allocated for the selected lobsters
 }
