@@ -7,3 +7,5 @@ The tester of this program will have to input two values as follows after the co
 
 The  first output will be the ID's of the lobsters alongside their respective weight and value.
 The second output will be maximum value that can be obtained that also respects the restrictions of the net capacity.
+The third output will be the lobsters selected for the value in the net.
+The fourth output will be the CPU runtime.
